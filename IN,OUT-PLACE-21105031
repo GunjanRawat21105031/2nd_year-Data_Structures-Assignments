@@ -1,0 +1,141 @@
+//NAME- Gunjan Rawat
+//SID- 21105031
+//BRANCH- ECE
+
+
+
+/*
+Answer-1
+IN-PLACE: An in-place algorithm transforms the input without using any extra memory. 
+As the algorithm executes, the input is usually overwritten by the output, 
+and no additional space is needed for this operation. Space Complexity
+lies between O(1) and O(logn) both included.
+
+OUT-PLACE: An algorithm that is not in-place is called a not-in-place or out-of-place algorithm. 
+Unlike an in-place algorithm, the extra space used by an out-of-place algorithm 
+depends on the input size.Space complexity is
+greater than O(logn).
+*/
+
+// Answer-2
+
+#include <iostream>
+using namespace std;
+// Using In-place
+void In_place(int arr[], int n)
+{
+    int i = 0, j = i + 1;
+    while (j <= n - 1)
+    {
+        int temp = arr[j];
+        while (i >= 0)
+        {
+            if (arr[i] > temp)
+            {
+                arr[i + 1] = arr[i];
+                i--;
+            }
+            if (i == -1)
+            {
+                arr[0] = temp;
+                break;
+            }
+            if (arr[i] <= temp)
+            {
+                arr[i + 1] = temp;
+                break;
+            }
+        }
+        j++;
+        i = j - 1;
+    }
+    return;
+}
+
+//Using Out-Place 
+void Out_place(int arr[], int start_index, int end_index)
+{
+    // si=starting index
+    // ei=ending index
+    if (start_index == end_index)
+    {
+        return;
+    }
+    int j = start_index + 1;
+    int temp = arr[j];
+    while (start_index >= 0)
+    {
+        if (arr[start_index] > temp)
+        {
+            arr[start_index + 1] = arr[start_index];
+            start_index--;
+        }
+        if (start_index == -1)
+        {
+            arr[0] = temp;
+            break;
+        }
+        if (arr[start_index] <= temp)
+        {
+            arr[start_index + 1] = temp;
+            break;
+        }
+    }
+    Out_place(arr, start_index + 1, end_index);
+}
+
+// Printing array
+void Print(int arr[], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        cout << arr[i] << " ";
+    }
+}
+
+//Driver Code
+int main()
+{
+    int n;
+    // Take Input
+    cout << "ENTER NUMBER OF ELEMENTS IN THE ARRAY: ";
+    cin >> n;
+    int array[n], array2[n]; 
+    // Common size and elements in both arrays
+    cout << "ENTER ELEMENTS OF ARRAY SEPERATED BY SPACE: ";
+    for (int i = 0; i < n; i++)
+    {
+        cin >> array[i];
+    }
+
+    // Copying Arr to Arr 2
+    for (int i = 0; i < n; i++)
+    {
+        array2[i] = array[i];
+    }
+    cout << endl;
+    cout << "ARRAY BEFORE SORTING : ";
+    Print(array, n);
+
+    // Calling insertion sort using in-place algorithm.
+    In_place(array, n);
+    cout << endl;
+    cout << "ARRAY AFTER SORTING USING IN-PLACE ALGORITHM : ";
+    Print(array, n);
+    cout << endl;
+
+    // calling insertiong sort using out-place algorithm.
+    Out_place(array2, 0, n - 1);
+    cout << "ARRAY AFTER SORTING USING OUT-PLACE ALGORITHM : ";
+    Print(array, n);
+
+    cout << endl;
+}
+
+/*
+Answer-3 
+In-place techniques have lesser space complexity but are difficult to
+apply in algorithm whereas out-place techniques are easy to aplly but
+increases the space complexity of algorithm.IN-PLACE algorithm are used in Bubble sort, Selection Sort, Insertion Sort, Heapsort.
+NOT IN-PLACE algorithm is used in Merge Sort, Because merge sort requires O(n) extra space.
+*/
