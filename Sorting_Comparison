@@ -1,0 +1,128 @@
+/*
+NAME- GUNJAN RAWAT
+BRANCH- ECE
+SID- 21105031
+*/
+
+#include <iostream>
+using namespace std;
+
+
+//TIME COMPLEXITY OF BUBBLE SORT - O(n^2).
+
+pair<int,int> Bubble_Sort(int *input, int size)
+{   //Counting no. of swaps 
+    int num_swaps = 0;
+
+    //Counting no. of comparisons
+    int num_comparisons = 0;
+    for (int j = 0; j < size - 1; j++)
+    {
+        for (int i = 0; i < size - 1 - j; i++)
+        {
+            if (input[i] > input[i + 1])
+            {
+                int temp = input[i];
+                input[i] = input[i + 1];
+                input[i + 1] = temp;
+                num_swaps++;
+            }
+            num_comparisons++;
+        }
+    }
+    pair<int,int> ans;
+    //First member would store the no. of swaps
+    ans.first = num_swaps;
+    //Second member would store the no. of comparisons.
+    ans.second = num_comparisons;
+    return ans;
+}
+
+//TIME COMPLEXITY OF SELECTION SORT - O(n^2).
+
+pair<int,int> Selection_Sort(int *input,int size)
+{
+    int Min;
+    //Counting no. of swaps 
+    int Num_swaps = 0;
+
+    //Counting no. of comparisons
+    int Num_comparisons = 0;
+    for(int i=0;i<size;i++)
+    {
+        Min = i;
+        for(int j=i+1;j<size;j++)
+        {
+            if(input[j]<input[Min])
+            {
+                Min = j;
+                Num_swaps++;
+            }
+            Num_comparisons++;
+        }
+        int temp = input[i];
+        input[i] = input[Min];
+        input[Min] = temp;
+    }
+    pair<int,int> ans;
+    ans.first = Num_swaps;
+    ans.second = Num_comparisons;
+    return ans;
+}
+
+int main()
+{
+    int n;
+    cout << "Enter size of array : ";
+    cin >> n;
+
+    int arr[n];
+    for (int i = 0; i < n; i++)
+    {
+        cin >> arr[i];
+    }
+
+    pair<int,int> bubble_ans = Bubble_Sort(arr,n);
+    pair<int,int> selection_ans = Selection_Sort(arr,n);
+
+    //First comparison
+
+    cout << "COMPARISON BETWEEN INSERTION AND BUBBLE SORT. " << endl;
+    cout << endl;
+
+    cout << "1. ON THE BASIS OF NUMBER OF COMPARISONS : " << " ";
+    if(bubble_ans.second > selection_ans.second)
+    {
+        cout << "MORE COMPARSIONS ARE REQUIRED FOR BUBBLE SORT." << endl;
+    }
+    else if(bubble_ans.second < selection_ans.second)
+    {
+        cout << "MORE COMPARISONS ARE REQUIRED FOR SELECTION SORT." << endl;
+    }
+    else
+    {
+        cout << "BOTH REQUIRE EQUAL NUMBER OF COMPARISONS." << endl;
+    }
+    cout << endl;
+
+    //Second comparison
+
+    cout << "2. ON THE BASIS OF NUMBE ROF SWAPS : " << " ";
+    if(bubble_ans.first > selection_ans.first)
+    {
+        cout << "MORE SWAPS ARE REQUIRED FOR BUBBLE SORT." << endl;
+    }
+    else if(bubble_ans.first < selection_ans.first)
+    {
+        cout << "MORE SWAPS ARE REQUIRED FOR SELECTION SORT." << endl;
+    }
+    else
+    {
+        cout << "BOTH REQUIRE EQUAL NUMBER OF SWAPS." << endl;
+    }
+    cout << endl;
+
+    cout << "3 . As both BubbleSort and SelectionSort are In-place algorithms, hence both of their Inplace Algorithms have been written above." << endl;
+
+}
+
