@@ -1,0 +1,153 @@
+/*
+NAME - Gunjan Rawat
+SID - 21105031
+BRANCH - ECE
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+template <typename T>
+
+//BINARY TREE CLASS
+class BinaryTree{
+public:
+    T data;
+    BinaryTree *left;
+    BinaryTree *right;
+
+    BinaryTree(T data)
+    {
+        this->data = data;
+        left = NULL;
+        right = NULL;
+    }
+
+    ~BinaryTree()
+    {
+        delete left;
+        delete right;
+    }
+};
+
+// Array to BST
+BinaryTree<int> *BST(int arr[], int si, int ei)
+{
+    if (si > ei)
+    {
+        return NULL;
+    }
+    int mid = (si + ei) / 2;
+    BinaryTree<int> *root = new BinaryTree<int>(arr[mid]);
+
+    root->left = BST(arr, si, mid - 1);
+    root->right = BST(arr, mid + 1, ei);
+    return root;
+}
+
+// CHECKING BST
+int min(BinaryTree<int> *root)
+{   //Base Case
+    if (root == NULL) 
+    {
+        return INT32_MAX; 
+    }
+    return min(root->data, min(min(root->left), min(root->right)));
+}
+
+int max(BinaryTree<int> *root)
+{
+    if (root == NULL)
+    {
+        return INT32_MIN;
+    }
+    return max(root->data, max(max(root->left), max(root->right)));
+}
+
+bool checkBST(BinaryTree<int> *root)
+{
+    if (root == NULL)
+    {
+        return true;
+    }
+
+    int leftMax = max(root->left);
+    int rightMin = min(root->right);
+
+    bool output = (root->data > leftMax) && (root->data <= rightMin) && checkBST(root->left) && checkBST(root->right);
+    return output;
+}
+
+
+BinaryTree<int>* minValue(BinaryTree<int>* node)
+{
+    BinaryTree<int>* current = node;
+  
+    // loop down to find the leftmost leaf 
+    while (current && current->left != NULL)
+        current = current->left;
+  
+    return current;
+}
+
+BinaryTree<int> *del_Node(BinaryTree<int> *root, int key)
+{
+    if (root == NULL)
+    {
+        return root;
+    }
+
+    if (key < root->data)
+    {
+        root->left = del_Node(root->left, key);
+    }
+    else if (key > root->data)
+    {
+        root->right = del_Node(root->right, key);
+    }
+    else
+    {
+        if (root->left == NULL && root->right == NULL)
+        {
+            return NULL;
+        }
+        else if (root->left == NULL)
+        {
+            BinaryTree<int> *temp = root->right;
+            free(root);
+            return temp;
+        }
+        else if (root->right == NULL)
+        {
+            BinaryTree<int> *temp = root->left;
+            free(root);
+            return temp;
+        }
+        BinaryTree<int> *temp = minValue(root->right);
+        root->data = temp->data;
+        root->right = del_Node(root->right,temp->data);
+    }
+    return root;
+}
+
+    //driver code
+    int main()
+    {
+        int n;
+        cin >> n;
+
+        int arr[n];
+        for (int i = 0; i < n; i++)
+        {
+            cin >> arr[i];
+        }
+        
+        // sorting array.
+        sort(arr, arr + n); 
+        BinaryTree<int> *root = BST(arr, 0, n - 1);
+        cout << checkBST(root) << endl;
+
+        int data;
+        cin >> data;
+        //craeting new node ;
+        root = del_Node(root,data);
+    }
